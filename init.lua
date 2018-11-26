@@ -8,7 +8,7 @@ local p_noise1 = {
 }
 
 local cids = {
-   air = minetest.get_content_id("air")
+   air = minetest.get_content_id("air"),
    stone = minetest.get_content_id("default:stone")
 }
 
