@@ -1,6 +1,6 @@
 Nether Mod for Minetest
 
-##License of source code:
+## License of source code:
 
 Copyright (C) 2018 BillyS
 
