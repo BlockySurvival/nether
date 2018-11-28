@@ -4,7 +4,7 @@ Nether Mod for Minetest
 
 Copyright (C) 2018 BillyS
 
-Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+All code is licensed under the Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) license.
 http://creativecommons.org/licenses/by-sa/3.0/
 
 Inspired by PlizAdam
