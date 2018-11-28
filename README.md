@@ -9,7 +9,7 @@ http://creativecommons.org/licenses/by-sa/3.0/
 
 Inspired by PlizAdam
 
-##License of media (textures and sounds)
+## License of media (textures and sounds)
 
 Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 http://creativecommons.org/licenses/by-sa/3.0/
