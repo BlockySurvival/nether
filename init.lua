@@ -1,5 +1,8 @@
 local mp = minetest.get_modpath(minetest.get_current_modname()) .. "/"
 
+nether_depth = -25000
+local bedrock_thickness = 3
+
 dofile(mp .. "nodes.lua")
 dofile(mp .. "items.lua")
 dofile(mp .. "crafts.lua")
@@ -26,9 +29,6 @@ local cids = {
    heart = minetest.get_content_id("nether:heart_ore"),
    bedrock = minetest.get_content_id("nether:bedrock")
 }
-
-local nether_depth = -25000
-local bedrock_thickness = 3
 
 local c_air = cids.air
 local c_stone = cids.stone
