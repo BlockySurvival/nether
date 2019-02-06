@@ -1,15 +1,32 @@
+-- Nether fumes (atmosphere)
+minetest.register_node("nether:fumes", {
+   descriptions = "Nether Fumes (you hacker you)",
+   drawtype = "airlike",
+   groups = {not_in_creative_inventory = 1},
+   drop = "",
+   walkable = false,
+   pointable = false,
+   diggable = false,
+   buildable_to = true,
+   sunlight_propagates = true,
+   is_ground_content = false,
+   floodable = false,
+   paramtype = "light"
+})
+
 -- Magma
 
 minetest.register_node("nether:magma_hot", {
    description = "Hot Nether Magma",
    drawtype = "liquid",
    tiles = {"nether_magma.png"},
+   groups = {crumbly = 1},
    is_ground_content = true,
    light_source = 10,
    walkable = false,
    pointable = true,
-   diggable = false,
-   buildable_to = true,
+   diggable = true,
+   buildable_to = false,
    paramtype = "light",
    damage_per_second = 2,
    liquidtype = "source",
@@ -38,8 +55,27 @@ minetest.register_node("nether:rack", {
 })
 
 -- Ores
-
 minetest.register_node("nether:titanium_ore", {
    description = "Titanium Ore",
-   tiles = {"nether_rack.png^titanium_titanium_in_ground.png"}
+   groups = {cracky = 1},
+   tiles = {"nether_rack.png^titanium_titanium_in_ground.png"},
+   drop = "titanium:titanium"
+})
+
+minetest.register_node("nether:heart_ore", {
+	definition = "Nether Heart Ore",
+	tiles = {"nether_heart_ore.png"},
+	groups = {cracky = 1, level = 2},
+	drop = "nether:heart",
+	on_blast = function (pos, intensity) end
+})
+
+minetest.register_node("nether:bedrock", {
+	description = "Bedrock",
+	tiles = {"bedrock.png"},
+	is_ground_content = false,
+	diggable = false,
+	damage_per_second = 500, -- Keep hackers from glitching through
+	drop = "",
+	on_blast = function (pos, intensity) end -- Nothing happens with TNT
 })

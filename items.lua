@@ -1,6 +1,6 @@
 -- Vial of Reviving
 
-function revive_effects(player_pos)
+local function revive_effects(player_pos)
 	minetest.add_particlespawner({
 		amount = 40,
 		time = 0.1,
@@ -28,15 +28,7 @@ minetest.register_craftitem("nether:heart", {
 	inventory_image = "nether_heart.png"
 })
 
-minetest.register_node("nether:heart_ore", {
-	definition = "Nether Heart Ore",
-	tiles = {"nether_heart_ore.png"},
-	groups = {cracky = 1, level = 2},
-	drop = "nether:heart",
-	on_blast = function (pos, intensity) end
-})
-
-minetest.register_on_player_hpchange(function (player, hp_change)
+minetest.register_on_player_hpchange(function(player, hp_change)
 	if player:get_hp() + hp_change < 1 then
 		local pInv = player:get_inventory()
 		if pInv:contains_item("main", "nether:vial_reviving") then
