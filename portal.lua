@@ -177,13 +177,15 @@ local function portalat(pos)
    end
 end
 
-local function makeportal(minC, maxC, portal_pos, param2)
+local function makeportal(minC, maxC, portal_pos, param2, target)
    -- Create the portal
    for x = minC.x, maxC.x do
       for y = minC.y, maxC.y do
          for z = minC.z, maxC.z do
             local pos = {x = x, y = y, z = z}
             minetest.set_node(pos, {name = "nether:portal", param2 = param2})
+            local meta = minetest.get_meta(pos)
+            meta:set_string("target", minetest.serialize(target))
          end
       end
    end
@@ -250,6 +252,25 @@ minetest.register_node("nether:portal", {
    groups = {not_in_creative_inventory = 1}
 })
 
+minetest.register_abm({
+   label = "Nether teleport",
+   nodenames = {"nether:portal"},
+   interval = 1,
+   chance = 1,
+   action = function(pos, node, active_object_count, active_object_count_wider)
+      local targets = minetest.get_objects_in_radius(pos, 0.5)
+      for _, player in pairs(targets) do
+         if player:is_player() then
+            local meta = minetest.get_meta(pos)
+            local pos_str = meta:get_string("target")
+            if pos_str == "" then return end
+            local pos = minetest.deserialize(pos_str)
+            player:set_pos(pos)
+         end
+      end
+   end
+})
+
 local obsidian_def = {
    description = "Enchanted Obsidian",
    tiles = {"nether_obsidian_enchanted.png"},
@@ -278,6 +299,8 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
    if minC ~= nil and maxC ~= nil and portal_pos ~= nil and param2 ~= nil then
       local link_minC = {x = minC.x, y = math.random(nether_depth + 100, nether_depth + 500), z = minC.z}
       local link_maxC = {x = link_minC.x + 1, y = link_minC.y + 2, z = link_minC.z}
+      local target = {x = link_maxC.x, y = link_minC.y, z = link_maxC.z}
+      local link_target = {x = (minC.x + maxC.x) / 2 + 0.5, y = minC.y, z = (minC.z + maxC.z) / 2 + 0.5}
       local link_portal_pos = {
          {x = link_minC.x - 1, y = link_minC.y - 1, z = link_minC.z},
          {x = link_minC.x - 1, y = link_minC.y, z = link_minC.z},
@@ -291,7 +314,7 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
          {x = link_minC.x + 2, y = link_minC.y + 1, z = link_minC.z},
          {x = link_minC.x + 2, y = link_minC.y, z = link_minC.z},
          {x = link_minC.x + 2, y = link_minC.y - 1, z = link_minC.z},
-         {x = link_minC.x + 1, y = link_minC.y + 1, z = link_minC.z},
+         {x = link_minC.x + 1, y = link_minC.y - 1, z = link_minC.z},
          {x = link_minC.x, y = link_minC.y - 1, z = link_minC.z},
       }
       for _, pos in pairs(link_portal_pos) do
@@ -300,8 +323,8 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
       minetest.emerge_area(
          {x = link_minC.x - 4, y = link_minC.y - 4, z = link_minC.z - 4},
          {x = link_maxC.x + 4, y = link_maxC.y + 4, z = link_maxC.z + 4})
-      makeportal(minC, maxC, portal_pos, param2)
-      minetest.after(3, makeportal, link_minC, link_maxC, link_portal_pos, 0)
+      makeportal(minC, maxC, portal_pos, param2, target)
+      minetest.after(3, makeportal, link_minC, link_maxC, link_portal_pos, 0, link_target)
       minetest.chat_send_all(dump(link_minC))
    end
 end
