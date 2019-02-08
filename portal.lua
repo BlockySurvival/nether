@@ -275,6 +275,7 @@ minetest.register_abm({
                   local pos_str = meta:get_string("target")
                   if pos_str == "" then return end
                   local pos = minetest.deserialize(pos_str)
+                  if pos == nil then return end
                   player:set_pos(pos)
                end
                nether_teleports[name] = nil
