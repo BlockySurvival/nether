@@ -1,5 +1,7 @@
 local mp = minetest.get_modpath(minetest.get_current_modname()) .. "/"
 
+nether_teleports = {}
+
 nether_depth = -25000
 local bedrock_thickness = 3
 

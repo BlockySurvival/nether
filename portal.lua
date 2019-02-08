@@ -258,14 +258,27 @@ minetest.register_abm({
    interval = 1,
    chance = 1,
    action = function(pos, node, active_object_count, active_object_count_wider)
-      local targets = minetest.get_objects_in_radius(pos, 0.5)
+      local targets = minetest.get_objects_inside_radius(pos, 0.6)
       for _, player in pairs(targets) do
-         if player:is_player() then
-            local meta = minetest.get_meta(pos)
-            local pos_str = meta:get_string("target")
-            if pos_str == "" then return end
-            local pos = minetest.deserialize(pos_str)
-            player:set_pos(pos)
+         if player:is_player() and nether_teleports[player:get_player_name()] == nil then
+            local name = player:get_player_name()
+            nether_teleports[name] = player:get_pos()
+            minetest.after(3, function()
+               if not minetest.get_player_by_name(name) then
+                  nether_teleports[name] = nil
+                  return
+               end
+               local oldpos = nether_teleports[name]
+               local newpos = player:get_pos()
+               if oldpos.x == newpos.x and oldpos.z == newpos.z then
+                  local meta = minetest.get_meta(pos)
+                  local pos_str = meta:get_string("target")
+                  if pos_str == "" then return end
+                  local pos = minetest.deserialize(pos_str)
+                  player:set_pos(pos)
+               end
+               nether_teleports[name] = nil
+            end)
          end
       end
    end
@@ -280,9 +293,14 @@ local obsidian_def = {
 fuel = "default:mese"
 
 obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
+   -- Can't start portals in the nether
+   if pos.y < nether_depth then return end
    -- Verify puncher
    if puncher == nil or not puncher:is_player() then return end
    local w = puncher:get_wielded_item()
+   -- Check if this obsidian is already lit
+   local meta = minetest.get_meta(pos)
+   if meta:get_string("portal") ~= "" then return end
    -- Verify wielded item
    if w:get_name() == fuel then
       w:take_item()
@@ -297,10 +315,10 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
    local param2
    minC, maxC, portal_pos, param2 = portalat(pos)
    if minC ~= nil and maxC ~= nil and portal_pos ~= nil and param2 ~= nil then
-      local link_minC = {x = minC.x, y = math.random(nether_depth + 100, nether_depth + 500), z = minC.z}
+      local link_minC = {x = minC.x, y = math.random(nether_depth - 100, nether_depth - 500), z = minC.z}
       local link_maxC = {x = link_minC.x + 1, y = link_minC.y + 2, z = link_minC.z}
       local target = {x = link_maxC.x, y = link_minC.y, z = link_maxC.z}
-      local link_target = {x = (minC.x + maxC.x) / 2 + 0.5, y = minC.y, z = (minC.z + maxC.z) / 2 + 0.5}
+      local link_target = {x = (minC.x + maxC.x) / 2, y = minC.y, z = (minC.z + maxC.z) / 2}
       local link_portal_pos = {
          {x = link_minC.x - 1, y = link_minC.y - 1, z = link_minC.z},
          {x = link_minC.x - 1, y = link_minC.y, z = link_minC.z},
@@ -317,15 +335,16 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
          {x = link_minC.x + 1, y = link_minC.y - 1, z = link_minC.z},
          {x = link_minC.x, y = link_minC.y - 1, z = link_minC.z},
       }
-      for _, pos in pairs(link_portal_pos) do
-         minetest.set_node(pos, {name = "nether:obsidian_enchanted"})
-      end
       minetest.emerge_area(
          {x = link_minC.x - 4, y = link_minC.y - 4, z = link_minC.z - 4},
          {x = link_maxC.x + 4, y = link_maxC.y + 4, z = link_maxC.z + 4})
       makeportal(minC, maxC, portal_pos, param2, target)
-      minetest.after(3, makeportal, link_minC, link_maxC, link_portal_pos, 0, link_target)
-      minetest.chat_send_all(dump(link_minC))
+      minetest.after(3, function()
+         for _, pos in pairs(link_portal_pos) do
+            minetest.set_node(pos, {name = "nether:obsidian_enchanted"})
+         end
+         makeportal(link_minC, link_maxC, link_portal_pos, 0, link_target)
+      end)
    end
 end
 

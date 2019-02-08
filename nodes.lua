@@ -40,6 +40,7 @@ minetest.register_node("nether:magma_hot", {
 
 minetest.register_node("nether:magma", {
    description = "Nether Magma",
+   groups = {crumbly = 2, cracky = 1},
    tiles = {"nether_magma_dim.png"},
    is_ground_content = true,
    light_source = 3,
@@ -50,6 +51,7 @@ minetest.register_node("nether:magma", {
 
 minetest.register_node("nether:rack", {
    description = "Nether Rack",
+   groups = {cracky = 2},
    tiles = {"nether_rack.png"},
    is_ground_content = true
 })
