@@ -7,7 +7,7 @@ Copyright (C) 2018 BillyS
 All code is licensed under the Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) license.
 http://creativecommons.org/licenses/by-sa/3.0/
 
-Inspired by PilzAdam
+Inspired by PilzAdam, who also wrote some of the code
 
 ## License of media (textures and sounds)
 

@@ -27,9 +27,23 @@ local cids = {
    magma = minetest.get_content_id("nether:magma"),
    magma_hot = minetest.get_content_id("nether:magma_hot"),
    rack = minetest.get_content_id("nether:rack"),
+   sand = minetest.get_content_id("nether:sand"),
+   glowstone = minetest.get_content_id("nether:glowstone"),
    titanium = minetest.get_content_id("nether:titanium_ore"),
    heart = minetest.get_content_id("nether:heart_ore"),
    bedrock = minetest.get_content_id("nether:bedrock")
+}
+
+-- id = chance
+-- chance is the percent chance that this node will be placed at any given position
+-- the chance for nether rack is 100% - the sum of the below chances
+local prob = {
+   [cids.magma] = 20,
+   [cids.sand] = 10,
+   [cids.magma_hot] = 5,
+   [cids.glowstone] = 3,
+   [cids.titanium] = 0.1,
+   [cids.heart] = 0.005,
 }
 
 local c_air = cids.air
@@ -44,18 +58,16 @@ local c_heart = cids.heart
 local c_bedrock = cids.bedrock
 
 local function type_calc()
-   local num = math.random()
-   if num < 0.3 then -- 30% prob
-      return c_magma
-   elseif num < 0.35 then -- 5% prob
-      return c_magma_hot
-   elseif num < 0.352 then -- 0.2% prob
-      return c_titanium
-   elseif num < 0.3521 then -- 0.01% prob
-      return c_heart
-   else
-      return nil
+   local num = math.random() * 100
+   local curr = 0
+   for id, chance in pairs(prob) do
+      if num <= curr + chance then
+         return id
+      else
+         curr = curr + chance
+      end
    end
+   return nil
 end
 
 -- Mapgen
