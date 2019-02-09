@@ -258,7 +258,7 @@ minetest.register_abm({
    interval = 1,
    chance = 1,
    action = function(pos, node, active_object_count, active_object_count_wider)
-      local targets = minetest.get_objects_inside_radius(pos, 0.6)
+      local targets = minetest.get_objects_inside_radius(pos, 0.75)
       for _, player in pairs(targets) do
          if player:is_player() and nether_teleports[player:get_player_name()] == nil then
             local name = player:get_player_name()
@@ -281,6 +281,20 @@ minetest.register_abm({
                nether_teleports[name] = nil
             end)
          end
+      end
+   end
+})
+
+-- Remove old portals
+minetest.register_lbm({
+   name = "nether:remove_old",
+   nodenames = {"nether:portal"},
+   run_at_every_load = false,
+   action = function(pos, node)
+      local meta = minetest.get_meta(pos)
+      local t = meta:get_string("target")
+      if t == "" or t == nil then
+         minetest.set_node(pos, {name = "air"})
       end
    end
 })

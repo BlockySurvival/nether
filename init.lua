@@ -49,9 +49,9 @@ local function type_calc()
       return c_magma
    elseif num < 0.35 then -- 5% prob
       return c_magma_hot
-   elseif num < 0.355 then -- 0.5% prob
+   elseif num < 0.352 then -- 0.2% prob
       return c_titanium
-   elseif num < 0.3551 then -- 0.01% prob
+   elseif num < 0.3521 then -- 0.01% prob
       return c_heart
    else
       return nil
