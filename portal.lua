@@ -258,7 +258,7 @@ minetest.register_abm({
    interval = 1,
    chance = 1,
    action = function(pos, node, active_object_count, active_object_count_wider)
-      local targets = minetest.get_objects_inside_radius(pos, 0.75)
+      local targets = minetest.get_objects_inside_radius(pos, 0.95)
       for _, player in pairs(targets) do
          if player:is_player() and nether_teleports[player:get_player_name()] == nil then
             local name = player:get_player_name()
