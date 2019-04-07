@@ -330,7 +330,7 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
    local param2
    minC, maxC, portal_pos, param2 = portalat(pos)
    if minC ~= nil and maxC ~= nil and portal_pos ~= nil and param2 ~= nil then
-      local link_minC = {x = minC.x, y = math.random(nether_depth - 100, nether_depth - 500), z = minC.z}
+      local link_minC = {x = minC.x, y = math.random(nether_depth - 500, nether_depth - 100), z = minC.z}
       local link_maxC = {x = link_minC.x + 1, y = link_minC.y + 2, z = link_minC.z}
       local target = {x = link_maxC.x, y = link_minC.y, z = link_maxC.z}
       local link_target = {x = (minC.x + maxC.x) / 2, y = minC.y, z = (minC.z + maxC.z) / 2}
