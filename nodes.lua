@@ -91,8 +91,6 @@ minetest.register_node("nether:fence_nether_brick", {
 	description = "Nether Brick Fence",
 	drawtype = "fencelike",
 	tiles = {"nether_brick.png"},
-	inventory_image = fence_texture,
-	wield_image = fence_texture,
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
