@@ -151,3 +151,12 @@ minetest.register_node("nether:bedrock", {
 	drop = "",
 	on_blast = function (pos, intensity) end -- Nothing happens with TNT
 })
+
+if minetest.get_modpath("technic_worldgen") then
+	minetest.register_node("nether:sulfur_ore", {
+		description = "Sulfur ore",
+		grous = {cracky = 1},
+		tiles = {"nether_rack.png^technic_mineral_sulfur.png"},
+		drop = "technic:sulfur_lump",
+	})
+end

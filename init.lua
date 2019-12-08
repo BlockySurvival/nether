@@ -31,7 +31,8 @@ local cids = {
    glowstone = minetest.get_content_id("nether:glowstone"),
    titanium = minetest.get_content_id("nether:titanium_ore"),
    heart = minetest.get_content_id("nether:heart_ore"),
-   bedrock = minetest.get_content_id("nether:bedrock")
+   bedrock = minetest.get_content_id("nether:bedrock"),
+   sulfur = minetest.get_content_id("nether:sulfur_ore")
 }
 
 -- id = chance
@@ -42,6 +43,7 @@ local prob = {
    [cids.sand] = 10,
    [cids.magma_hot] = 5,
    [cids.glowstone] = 3,
+   [cids.sulfur] = 1,
    [cids.titanium] = 0.1,
    [cids.heart] = 0.005,
 }
