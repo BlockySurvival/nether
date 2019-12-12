@@ -284,6 +284,7 @@ minetest.register_abm({
                         if pos == nil then
                             return
                         end
+                        minetest.log("action", ("[nether] moving %s to %s"):format(name, minetest.pos_to_string(pos)))
                         player:set_pos(pos)
                     end
                     nether_teleports[name] = nil
