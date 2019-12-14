@@ -155,7 +155,7 @@ minetest.register_node("nether:bedrock", {
 if minetest.get_modpath("technic_worldgen") then
 	minetest.register_node("nether:sulfur_ore", {
 		description = "Sulfur ore",
-		grous = {cracky = 1},
+		groups = {cracky = 1},
 		tiles = {"nether_rack.png^technic_mineral_sulfur.png"},
 		drop = "technic:sulfur_lump",
 	})
