@@ -317,65 +317,68 @@ local obsidian_def = {
 fuel = "default:mese"
 
 obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
-    -- Can't start portals in the nether
-    if pos.y < nether_depth then
-        return
-    end
-    -- Verify puncher
-    if puncher == nil or not puncher:is_player() then
-        return
-    end
-    local w = puncher:get_wielded_item()
-    -- Check if this obsidian is already lit
-    local meta = minetest.get_meta(pos)
-    if meta:get_string("portal") ~= "" then
-        return
-    end
-    -- Verify wielded item
-    if w:get_name() == fuel then
-        w:take_item()
-        puncher:set_wielded_item(w)
-    else
-        return
-    end
-    -- Check if there is a portal frame here
-    local minC
-    local maxC
-    local portal_pos
-    local param2
-    minC, maxC, portal_pos, param2 = portalat(pos)
-    if minC ~= nil and maxC ~= nil and portal_pos ~= nil and param2 ~= nil then
-        local link_minC = { x = minC.x, y = math.random(nether_depth - 500, nether_depth - 100), z = minC.z }
-        local link_maxC = { x = link_minC.x + 1, y = link_minC.y + 2, z = link_minC.z }
-        local target = { x = link_maxC.x, y = link_minC.y, z = link_maxC.z }
-        local link_target = { x = (minC.x + maxC.x) / 2, y = minC.y, z = (minC.z + maxC.z) / 2 }
-        local link_portal_pos = {
-            { x = link_minC.x - 1, y = link_minC.y - 1, z = link_minC.z },
-            { x = link_minC.x - 1, y = link_minC.y, z = link_minC.z },
-            { x = link_minC.x - 1, y = link_minC.y + 1, z = link_minC.z },
-            { x = link_minC.x - 1, y = link_minC.y + 2, z = link_minC.z },
-            { x = link_minC.x - 1, y = link_minC.y + 3, z = link_minC.z },
-            { x = link_minC.x, y = link_minC.y + 3, z = link_minC.z },
-            { x = link_minC.x + 1, y = link_minC.y + 3, z = link_minC.z },
-            { x = link_minC.x + 2, y = link_minC.y + 3, z = link_minC.z },
-            { x = link_minC.x + 2, y = link_minC.y + 2, z = link_minC.z },
-            { x = link_minC.x + 2, y = link_minC.y + 1, z = link_minC.z },
-            { x = link_minC.x + 2, y = link_minC.y, z = link_minC.z },
-            { x = link_minC.x + 2, y = link_minC.y - 1, z = link_minC.z },
-            { x = link_minC.x + 1, y = link_minC.y - 1, z = link_minC.z },
-            { x = link_minC.x, y = link_minC.y - 1, z = link_minC.z },
-        }
-        minetest.emerge_area(
-                { x = link_minC.x - 4, y = link_minC.y - 4, z = link_minC.z - 4 },
-                { x = link_maxC.x + 4, y = link_maxC.y + 4, z = link_maxC.z + 4 })
-        makeportal(minC, maxC, portal_pos, param2, target)
-        minetest.after(3, function()
-            for _, pos in pairs(link_portal_pos) do
-                minetest.set_node(pos, { name = "nether:obsidian_enchanted" })
-            end
-            makeportal(link_minC, link_maxC, link_portal_pos, 0, link_target)
-        end)
-    end
+    -- temporarily disable this behavior until it is fixed
+    return
+--
+--    -- Can't start portals in the nether
+--    if pos.y < nether_depth then
+--        return
+--    end
+--    -- Verify puncher
+--    if puncher == nil or not puncher:is_player() then
+--        return
+--    end
+--    local w = puncher:get_wielded_item()
+--    -- Check if this obsidian is already lit
+--    local meta = minetest.get_meta(pos)
+--    if meta:get_string("portal") ~= "" then
+--        return
+--    end
+--    -- Verify wielded item
+--    if w:get_name() == fuel then
+--        w:take_item()
+--        puncher:set_wielded_item(w)
+--    else
+--        return
+--    end
+--    -- Check if there is a portal frame here
+--    local minC
+--    local maxC
+--    local portal_pos
+--    local param2
+--    minC, maxC, portal_pos, param2 = portalat(pos)
+--    if minC ~= nil and maxC ~= nil and portal_pos ~= nil and param2 ~= nil then
+--        local link_minC = { x = minC.x, y = math.random(nether_depth - 500, nether_depth - 100), z = minC.z }
+--        local link_maxC = { x = link_minC.x + 1, y = link_minC.y + 2, z = link_minC.z }
+--        local target = { x = link_maxC.x, y = link_minC.y, z = link_maxC.z }
+--        local link_target = { x = (minC.x + maxC.x) / 2, y = minC.y, z = (minC.z + maxC.z) / 2 }
+--        local link_portal_pos = {
+--            { x = link_minC.x - 1, y = link_minC.y - 1, z = link_minC.z },
+--            { x = link_minC.x - 1, y = link_minC.y, z = link_minC.z },
+--            { x = link_minC.x - 1, y = link_minC.y + 1, z = link_minC.z },
+--            { x = link_minC.x - 1, y = link_minC.y + 2, z = link_minC.z },
+--            { x = link_minC.x - 1, y = link_minC.y + 3, z = link_minC.z },
+--            { x = link_minC.x, y = link_minC.y + 3, z = link_minC.z },
+--            { x = link_minC.x + 1, y = link_minC.y + 3, z = link_minC.z },
+--            { x = link_minC.x + 2, y = link_minC.y + 3, z = link_minC.z },
+--            { x = link_minC.x + 2, y = link_minC.y + 2, z = link_minC.z },
+--            { x = link_minC.x + 2, y = link_minC.y + 1, z = link_minC.z },
+--            { x = link_minC.x + 2, y = link_minC.y, z = link_minC.z },
+--            { x = link_minC.x + 2, y = link_minC.y - 1, z = link_minC.z },
+--            { x = link_minC.x + 1, y = link_minC.y - 1, z = link_minC.z },
+--            { x = link_minC.x, y = link_minC.y - 1, z = link_minC.z },
+--        }
+--        minetest.emerge_area(
+--                { x = link_minC.x - 4, y = link_minC.y - 4, z = link_minC.z - 4 },
+--                { x = link_maxC.x + 4, y = link_maxC.y + 4, z = link_maxC.z + 4 })
+--        makeportal(minC, maxC, portal_pos, param2, target)
+--        minetest.after(3, function()
+--            for _, pos in pairs(link_portal_pos) do
+--                minetest.set_node(pos, { name = "nether:obsidian_enchanted" })
+--            end
+--            makeportal(link_minC, link_maxC, link_portal_pos, 0, link_target)
+--        end)
+--    end
 end
 
 obsidian_def.on_destruct = function(pos)
