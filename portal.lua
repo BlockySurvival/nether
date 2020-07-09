@@ -344,7 +344,7 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
 
     -- Check if there is a proper portal frame here
     minC, maxC, portal_pos, param2 = portalat(pos)
-    if not minC and maxC and portal_pos and param2 then
+    if not (minC and maxC and portal_pos and param2) then
         return
     end
 
