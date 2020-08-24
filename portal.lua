@@ -27,7 +27,7 @@ local function search(pos)
     local inZ = false
     for x = -1, 1 do
         if x ~= 0 then
-            local pos = { x = pos.x + x, y = pos.y, z = pos.z }
+            pos = { x = pos.x + x, y = pos.y, z = pos.z }
             if check(pos) then
                 table.insert(ptable, pos)
                 inX = true
@@ -36,7 +36,7 @@ local function search(pos)
     end
     for y = -1, 1 do
         if y ~= 0 then
-            local pos = { x = pos.x, y = pos.y + y, z = pos.z }
+            pos = { x = pos.x, y = pos.y + y, z = pos.z }
             if check(pos) then
                 table.insert(ptable, pos)
                 inY = true
@@ -45,7 +45,7 @@ local function search(pos)
     end
     for z = -1, 1 do
         if z ~= 0 then
-            local pos = { x = pos.x, y = pos.y, z = pos.z + z }
+            pos = { x = pos.x, y = pos.y, z = pos.z + z }
             if check(pos) then
                 table.insert(ptable, pos)
                 inZ = true
@@ -65,7 +65,6 @@ local function portalat(pos)
     local index = 1
     while index <= #tosearch do
         local sPos = tosearch[index]
-        local iscorner
         local valid, iscorner = search(sPos)
         -- Add neighboring blocks to the search table
         for k, v in pairs(valid) do
@@ -80,7 +79,7 @@ local function portalat(pos)
         end
         index = index + 1
     end
-    tosearch = nil
+    tosearch = nil -- luacheck: ignore
     -- Make sure there are 4 corners
     if #corners ~= 4 then
         return false
@@ -282,7 +281,7 @@ minetest.register_abm({
                         if pos_str == "" then
                             return
                         end
-                        local pos = minetest.deserialize(pos_str)
+                        pos = minetest.deserialize(pos_str)
                         if pos == nil then
                             return
                         end
@@ -318,7 +317,7 @@ local obsidian_def = {
 
 fuel = "default:mese"
 
-obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
+obsidian_def.on_punch = function(pos, _, puncher, _)
     -- Can't start portals in the nether
     if pos.y < nether_depth then
         return
@@ -352,7 +351,7 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
 
     -- TODO: ensure only air is inside
     -- TODO: ensure the portal doesn't intersect someone else's protected area
-    local pos = { x = minC.x, y = minC.y, z = minC.z }
+    pos = { x = minC.x, y = minC.y, z = minC.z }
 
     for x = minC.x, maxC.x do
         pos.x = x
@@ -394,7 +393,7 @@ obsidian_def.on_punch = function(pos, node, puncher, pointed_thing)
             { x = link_maxC.x + 4, y = link_maxC.y + 4, z = link_maxC.z + 4 })
     makeportal(minC, maxC, portal_pos, param2, target)
     minetest.after(3, function()
-        for _, pos in pairs(link_portal_pos) do
+        for _, pos in pairs(link_portal_pos) do -- luacheck: ignore
             minetest.set_node(pos, { name = "nether:obsidian_enchanted" })
         end
         makeportal(link_minC, link_maxC, link_portal_pos, 0, link_target)
@@ -421,14 +420,14 @@ obsidian_def.on_destruct = function(pos)
     for x = minC.x, maxC.x do
         for y = minC.y, maxC.y do
             for z = minC.z, maxC.z do
-                local pos = { x = x, y = y, z = z }
+                pos = { x = x, y = y, z = z }
                 minetest.set_node(pos, { name = "air" })
             end
         end
     end
     -- Update metadata for the enchanted obsidian
-    for _, pos in pairs(portal_info[3]) do
-        local meta = minetest.get_meta(pos)
+    for _, pos in pairs(portal_info[3]) do -- luacheck: ignore
+        meta = minetest.get_meta(pos)
         meta:set_string("portal", "")
     end
 end
