@@ -1,18 +1,18 @@
-Nether Mod for Minetest
+# Nether Mod for Minetest [![Build status](https://github.com/BlockySurvival/nether/workflows/build/badge.svg)](https://github.com/BlockySurvival/nether/actions)
 
-## License of source code:
+## License of source code
 
 Copyright (C) 2018 BillyS
 
 All code is licensed under the Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) license.
-http://creativecommons.org/licenses/by-sa/3.0/
+<http://creativecommons.org/licenses/by-sa/3.0/>
 
 Inspired by PilzAdam, who also wrote some of the code
 
 ## License of media (textures and sounds)
 
 Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
-http://creativecommons.org/licenses/by-sa/3.0/
+<http://creativecommons.org/licenses/by-sa/3.0/>
 
 ## Authors of media files
 
