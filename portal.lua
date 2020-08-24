@@ -27,27 +27,27 @@ local function search(pos)
     local inZ = false
     for x = -1, 1 do
         if x ~= 0 then
-            pos = { x = pos.x + x, y = pos.y, z = pos.z }
-            if check(pos) then
-                table.insert(ptable, pos)
+            local posX = { x = pos.x + x, y = pos.y, z = pos.z }
+            if check(posX) then
+                table.insert(ptable, posX)
                 inX = true
             end
         end
     end
     for y = -1, 1 do
         if y ~= 0 then
-            pos = { x = pos.x, y = pos.y + y, z = pos.z }
-            if check(pos) then
-                table.insert(ptable, pos)
+            local posY = { x = pos.x, y = pos.y + y, z = pos.z }
+            if check(posY) then
+                table.insert(ptable, posY)
                 inY = true
             end
         end
     end
     for z = -1, 1 do
         if z ~= 0 then
-            pos = { x = pos.x, y = pos.y, z = pos.z + z }
-            if check(pos) then
-                table.insert(ptable, pos)
+            local posZ = { x = pos.x, y = pos.y, z = pos.z + z }
+            if check(posZ) then
+                table.insert(ptable, posZ)
                 inZ = true
             end
         end
