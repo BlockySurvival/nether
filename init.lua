@@ -49,14 +49,10 @@ local prob = {
 }
 
 local c_air = cids.air
-local c_stone = cids.stone
 local c_water = cids.water
 local c_lava = cids.lava
 local c_magma = cids.magma
-local c_magma_hot = cids.magma_hot
 local c_rack = cids.rack
-local c_titanium = cids.titanium
-local c_heart = cids.heart
 local c_bedrock = cids.bedrock
 
 local function type_calc()
@@ -131,7 +127,7 @@ function generate_nether(minp, maxp, seed)
    vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()
 	vm:write_to_map(data)
-   data = nil
+   data = nil -- luacheck: ignore
 end
 
 -- Nether fumes regeneration ABM
@@ -141,7 +137,7 @@ minetest.register_abm({
    neighbors = {"nether:fumes"},
    interval = 1,
    chance = 1,
-   action = function(pos, node, active_object_count, active_object_count_wider)
+   action = function(pos, _, _, _)
       if pos.y < nether_depth then
          minetest.set_node(pos, {name = "nether:fumes"})
       end
