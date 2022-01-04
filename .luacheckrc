@@ -8,4 +8,5 @@ read_globals = {
 
     "minetest", "areas", "VoxelArea",
     "default", "stairsplus",
+		"stairs", "walls"
 }

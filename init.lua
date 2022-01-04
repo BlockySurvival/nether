@@ -9,6 +9,8 @@ dofile(mp .. "nodes.lua")
 dofile(mp .. "items.lua")
 dofile(mp .. "crafts.lua")
 dofile(mp .. "portal.lua")
+dofile(mp .. "transition_nodes.lua")
+dofile(mp .. "transition_items.lua")
 
 local p_noise = {
    offset = 0,
